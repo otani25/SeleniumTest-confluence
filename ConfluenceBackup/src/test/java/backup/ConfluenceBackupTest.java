@@ -1,9 +1,6 @@
 package test.java.backup;
 
 
-import static org.hamcrest.core.Is.is;
-
-
 import java.util.regex.Pattern;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +13,6 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleContains;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
-import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -40,8 +36,8 @@ public class ConfluenceBackupTest {
   public void setUp() throws Exception {
 	// chrome
 	DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-	capabilities.setCapability("chrome.binary", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe");
-	System.setProperty("webdriver.chrome.driver", "C:/WebDriver/Chromedriver.exe");
+	capabilities.setCapability("chrome.binary", "/opt/google/chrome/chrome");
+	System.setProperty("webdriver.chrome.driver", "/usr/local/selenium/webDriver/chromedriver");
 	driver = new ChromeDriver(capabilities);
     wait = new WebDriverWait(driver, 10);
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
