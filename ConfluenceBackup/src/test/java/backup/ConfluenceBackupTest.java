@@ -40,7 +40,7 @@ public class ConfluenceBackupTest {
 	System.setProperty("webdriver.chrome.driver", "/usr/local/selenium/webDriver/chromedriver");
 	driver = new ChromeDriver(capabilities);
     wait = new WebDriverWait(driver, 10);
-    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 
     // load properties
     prop = new Properties();
@@ -55,6 +55,7 @@ public class ConfluenceBackupTest {
 
   @Test
   public void testConfluenceSupportBackup() throws Exception {
+    System.out.println("SupportSpaceBackup");
     loginAction();
     
     driver.get(baseUrl + prop.getProperty("supportSpace"));
@@ -80,14 +81,89 @@ public class ConfluenceBackupTest {
     		System.out.println("readError");
     		percent = 0;
     	}
-    	Thread.sleep(3000);
+    	Thread.sleep(5000);
     }
 
-    FileLoader("here");
+    FileLoader("here",prop.getProperty("downloadDir"));
 	File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
     FileUtils.copyFile(srcFile, new File("./supportbackup.png"));
   }
+
+  @Test
+  public void testConfluenceWorkBackup() throws Exception {
+    System.out.println("WorkSpaceBackup");
+    loginAction();
+    
+    driver.get(baseUrl + prop.getProperty("workSpace"));
+    driver.findElement(By.id("format-export-format-html")).click();
+    driver.findElement(By.name("confirm")).click();
+    wait.until(visibilityOf(driver.findElement(By.id("contentOptionAll"))));
+    driver.findElement(By.id("contentOptionVisible")).click();
+    driver.findElement(By.id("contentOptionAll")).click();
+    driver.findElement(By.name("confirm")).click();
+    wait.until(visibilityOf(driver.findElement(By.id("percentComplete"))));
+
+    String lastTime;
+    int percent = 0;
+    for(;percent < 100;){
+    	try{
+	    	WebElement element = driver.findElement(By.id("percentComplete"));
+	    	if(element != null){
+		    	percent = Integer.parseInt(element.getText());
+		    	lastTime = driver.findElement(By.id("taskElapsedTime")).getText();
+		    	System.out.println("percent:"+percent+" lastTime:"+lastTime);
+	    	}
+    	}catch(Exception e){
+    		System.out.println("readError");
+    		percent = 0;
+    	}
+    	Thread.sleep(5000);
+    }
+
+    FileLoader("here",prop.getProperty("downloadDir"));
+	File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+    FileUtils.copyFile(srcFile, new File("./workbackup.png"));
+  }
   
+  @Test
+  public void testConfluenceProductBackup() throws Exception {
+    System.out.println("ProductSpaceBackup");
+    loginAction();
+    
+    driver.get(baseUrl + prop.getProperty("productSpace"));
+    driver.findElement(By.id("format-export-format-html")).click();
+    driver.findElement(By.name("confirm")).click();
+    wait.until(visibilityOf(driver.findElement(By.id("contentOptionAll"))));
+    driver.findElement(By.id("contentOptionVisible")).click();
+    driver.findElement(By.id("contentOptionAll")).click();
+    driver.findElement(By.name("confirm")).click();
+    wait.until(visibilityOf(driver.findElement(By.id("percentComplete"))));
+
+    String lastTime;
+    int percent = 0;
+    for(;percent < 100;){
+    	try{
+	    	WebElement element = driver.findElement(By.id("percentComplete"));
+	    	if(element != null){
+		    	percent = Integer.parseInt(element.getText());
+		    	lastTime = driver.findElement(By.id("taskElapsedTime")).getText();
+		    	System.out.println("percent:"+percent+" lastTime:"+lastTime);
+	    	}
+    	}catch(Exception e){
+    		System.out.println("readError");
+    		percent = 0;
+    	}
+    	Thread.sleep(5000);
+    }
+
+    FileLoader("here",prop.getProperty("downloadDir"));
+	File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+    FileUtils.copyFile(srcFile, new File("./productbackup.png"));
+  }
+
+  /**
+   * loginAction 
+   */
   private void loginAction(){
 	    driver.get(baseUrl + "/login");
 	    driver.findElement(By.id("username")).clear();
@@ -98,10 +174,31 @@ public class ConfluenceBackupTest {
 	    wait.until(titleContains("Extic"));
   }
   
-  public void FileLoader(String linkText) throws InterruptedException {
+  /**
+   * FileLoader
+   * @param String linkText
+   * Click the link to execute the download
+   */
+  public void FileLoader(String linkText,String downloadDir) throws InterruptedException {
       WebElement download = driver.findElement(By.linkText(linkText));
       download.click();
       Thread.sleep(10000);
+
+      // downloading
+      boolean downloading = true;
+      File dir = new File(downloadDir);
+      while(downloading){
+        downloading = false;
+        File[] list = dir.listFiles();
+        for(int i = 0; i < list.length; i++){
+          if(list[i].getName().lastIndexOf(".crdownload") > 0){
+            downloading = true;
+            System.out.println("downloading : " + list[i].getName());
+            break;
+          }
+        }
+        Thread.sleep(10000);
+     }
   }
 
   @After
