@@ -7,7 +7,7 @@
 *   ブラウザ用テストクラスの基底クラス
 */
 
-package test.browser;
+package browser;
 
 import org.junit.After;
 import org.junit.Before;

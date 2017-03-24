@@ -53,15 +53,6 @@ public abstract class CommonManager {
         this.baseURL = testInfo.getProperty( "baseURL" );
     }
 
-    public void beforeTestClass() {
-    }
-
-    public void afterTestClass() {
-        if ( driver != null ) {
-            driver.quit();
-        }
-    }
-
     /**
      * スリープ付汎用待機処理
      * 

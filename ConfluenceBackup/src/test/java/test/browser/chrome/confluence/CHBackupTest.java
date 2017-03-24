@@ -11,7 +11,7 @@ package test.browser.chrome.confluence;
 
 import org.junit.Test;
 
-import test.browser.chrome.BrowserChromeDriver;
+import browser.chrome.BrowserChromeDriver;
 import test.common.confluence.CommonBackup;
 
 public class CHBackupTest extends BrowserChromeDriver {
@@ -19,7 +19,7 @@ public class CHBackupTest extends BrowserChromeDriver {
     private CommonBackup backup;
 
     /**
-     * ブラウザ設定
+     * ブラウザオプション設定
      */
     @Override
     protected void setupProfile() {

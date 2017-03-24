@@ -6,7 +6,7 @@
 * 概要
 *   IE用テストクラスの基底クラス
 */
-package test.browser.ie;
+package browser.ie;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -17,7 +17,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import test.browser.BrowserTestBase;
+import browser.BrowserTestBase;
 
 public abstract class BrowserIEDriver extends BrowserTestBase {
 

@@ -1,56 +1,52 @@
 /**
 *
 * クラス名
-*   BrowserFirefoxDriver.java
+*   BrowserChromeDriver.java
 *
 * 概要
-*   FireFox用テストクラスの基底クラス
+*   Chrome用テストクラスの基底クラス
 */
 
-package test.browser.firefox;
+package browser.chrome;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import test.browser.BrowserTestBase;
+import browser.BrowserTestBase;
 
-public abstract class BrowserFirefoxDriver extends BrowserTestBase {
-
-    protected static FirefoxProfile profile;
+public abstract class BrowserChromeDriver extends BrowserTestBase {
 
     /**
      * ブラウザ初期化
      */
     @Override
     protected void initDriver() {
-        profile = new FirefoxProfile();
+        capabilities = DesiredCapabilities.chrome();
         setupProfile();
 
-        String driverPath = getBrowserInfo().getProperty( "firefoxDriver" );
+        String driverPath = getBrowserInfo().getProperty( "chromeDriver" );
+        capabilities = DesiredCapabilities.chrome();
         // SeleniumGridでブラウザ遠隔起動
         if ( driverPath.contains( "http" ) ) {
-            capabilities = DesiredCapabilities.firefox();
             capabilities.setPlatform( Platform.WINDOWS );
-            capabilities.setBrowserName( "firefox" );
+            capabilities.setBrowserName( "chrome" );
             try {
                 driver = new RemoteWebDriver( new URL( driverPath ), capabilities );
             }
             catch ( MalformedURLException e ) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
         // ローカル環境のブラウザ起動
         else {
-            System.setProperty( "webdriver.gecko.driver", driverPath );
-            // 作成したプロファイルでFirefox(のドライバー)を起動する
-            driver = new FirefoxDriver( profile );
+            capabilities.setCapability( "chrome.binary", getBrowserInfo().getProperty( "chromeBinary" ) );
+            System.setProperty( "webdriver.chrome.driver", driverPath );
+            driver = new ChromeDriver( capabilities );
         }
     }
 
@@ -58,4 +54,5 @@ public abstract class BrowserFirefoxDriver extends BrowserTestBase {
      * ブラウザ初期化オプション
      */
     abstract protected void setupProfile();
+
 }

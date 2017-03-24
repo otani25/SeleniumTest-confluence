@@ -11,7 +11,7 @@ package test.browser.firefox.confluence;
 
 import org.junit.Test;
 
-import test.browser.firefox.BrowserFirefoxDriver;
+import browser.firefox.BrowserFirefoxDriver;
 import test.common.confluence.CommonBackup;
 
 public class FFBackupTest extends BrowserFirefoxDriver {
@@ -19,7 +19,7 @@ public class FFBackupTest extends BrowserFirefoxDriver {
     private CommonBackup backup;
 
     /**
-     * ブラウザ設定
+     * ブラウザオプション設定
      */
     @Override
     protected void setupProfile() {

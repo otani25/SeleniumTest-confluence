@@ -11,7 +11,7 @@ package test.browser.ie.confluence;
 
 import org.junit.Test;
 
-import test.browser.ie.BrowserIEDriver;
+import browser.ie.BrowserIEDriver;
 import test.common.confluence.CommonBackup;
 
 public class IEBackupTest extends BrowserIEDriver {
@@ -19,7 +19,7 @@ public class IEBackupTest extends BrowserIEDriver {
     private CommonBackup backup;
 
     /**
-     * ブラウザ設定
+     * ブラウザオプション設定
      */
     @Override
     protected void setupProfile() {
