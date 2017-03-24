@@ -1,19 +1,23 @@
+/**
+*
+* クラス名
+*   CommonManager.java
+*
+* 概要
+*   ブラウザ共通クラスの基底クラス
+*/
+
 package test.common;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.google.common.base.Predicate;
-
-import util.CaputureUtils;
 
 public abstract class CommonManager {
 
@@ -25,12 +29,19 @@ public abstract class CommonManager {
     protected Properties testInfo;
     protected String baseURL;
 
+    /**
+     * コンストラクタ
+     * 
+     * @param browserName ログ等で使用するブラウザ名
+     * @param driver 実行対象ブラウザのWebDriverインスタンス
+     * @param testInfoPath テスト用の設定ファイルパス
+     */
     public CommonManager( String browserName, WebDriver driver, String testInfoPath ) {
         this.browserName = browserName;
         this.driver = driver;
         this.wait = new WebDriverWait( driver, 30 );
 
-        // load browser properties
+        // テスト情報読み込み
         this.testInfo = new Properties();
         try {
             this.testInfo.load( new FileInputStream( testInfoPath ) );
@@ -51,32 +62,35 @@ public abstract class CommonManager {
         }
     }
 
-    /*
-     * waitUntil
+    /**
+     * スリープ付汎用待機処理
      * 
-     * @param ExpectedCondition arg0
-     * 
-     * @param sleepTime
+     * @param conditions 待機条件
+     * @param sleepTime 待機時間
      */
-    public void waitUntil( ExpectedCondition< ? > arg0, int sleepTime ) {
+    public void waitUntil( ExpectedCondition< ? > conditions, int sleepTime ) {
         try {
             Thread.sleep( sleepTime );
         }
         catch ( InterruptedException e ) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        wait.until( arg0 );
-    }
-
-    public void waitUntil( ExpectedCondition< ? > arg0 ) {
-        waitUntil( arg0, 1000 );
+        wait.until( conditions );
     }
 
     /**
-     * getLogHeader
+     * スリープ付汎用待機処理(1000ミリ固定待機)
      * 
-     * @return
+     * @param conditions 待機条件
+     */
+    public void waitUntil( ExpectedCondition< ? > conditions ) {
+        waitUntil( conditions, 1000 );
+    }
+
+    /**
+     * ログ出力用ヘッダ情報
+     * 
+     * @return ヘッダ文字列
      */
     protected String getLogHeader() {
         return "【" + this.browserName + "】 ";

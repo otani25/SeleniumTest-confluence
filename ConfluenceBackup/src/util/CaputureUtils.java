@@ -1,3 +1,12 @@
+/**
+*
+* クラス名
+*   CaptureUtils.java
+*
+* 概要
+*   キャプチャ用クラス
+*/
+
 package util;
 
 import java.io.File;
@@ -14,11 +23,23 @@ public class CaputureUtils {
 
     private static Logger LOG = Logger.getLogger( CaputureUtils.class.getName() );
 
+    /**
+     * キャプチャ取得
+     * 
+     * @param driver キャプチャ取得対象ブラウザ
+     * @param params ファイル名要素(複数指定で_繋ぎ)
+     */
     public static void getScreenshot( TakesScreenshot driver, String... params ) {
         String filePath = getFilePath( params );
         getScreenshot( driver, filePath );
     }
 
+    /**
+     * キャプチャ取得
+     * 
+     * @param driver キャプチャ取得対象ブラウザ
+     * @param filePath 出力ファイルパス
+     */
     public static void getScreenshot( TakesScreenshot driver, String filePath ) {
         File scrFile = driver.getScreenshotAs( OutputType.FILE );
         try {
@@ -30,6 +51,12 @@ public class CaputureUtils {
         }
     }
 
+    /**
+     * 整形済ファイルパス取得
+     * 
+     * @param params ファイルパス要素
+     * @return String ファイルパス名
+     */
     public static String getFilePath( String... params ) {
         StringBuilder builder = new StringBuilder();
         builder.append( "./screenshot/" );
@@ -42,7 +69,12 @@ public class CaputureUtils {
         return builder.toString();
     }
 
-    private static String getYYYYMMDD() {
+    /**
+     * 年月日取得
+     * 
+     * @return 年月日文字列
+     */
+    public static String getYYYYMMDD() {
         StringBuilder builder = new StringBuilder();
         Calendar calendar = Calendar.getInstance();
         builder.append( calendar.get( Calendar.YEAR ) );
