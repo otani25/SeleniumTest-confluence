@@ -42,7 +42,7 @@ public class CommonBackup extends CommonManager {
         FileLoader( "here", testInfo.getProperty( "downloadDir" ), "Confluence-supportspace-export-" + CaputureUtils.getYYYYMMDD() + type + ".zip" );
 
         // 完了後のキャプチャ出力
-        String filePath = CaputureUtils.getFilePath( getClass().getName(), browserName, "supportbackup" );
+        String filePath = CaputureUtils.getFilePath( getClass().getName(), browserName, "supportbackup_"+type );
         CaputureUtils.getScreenshot( ( TakesScreenshot ) driver, filePath );
     }
 
@@ -62,7 +62,7 @@ public class CommonBackup extends CommonManager {
         FileLoader( "here", testInfo.getProperty( "downloadDir" ), "Confluence-workspace-export-" + CaputureUtils.getYYYYMMDD() + type + ".zip" );
 
         // 完了後のキャプチャ出力
-        String filePath = CaputureUtils.getFilePath( getClass().getName(), browserName, "worktbackup" );
+        String filePath = CaputureUtils.getFilePath( getClass().getName(), browserName, "worktbackup_"+type );
         CaputureUtils.getScreenshot( ( TakesScreenshot ) driver, filePath );
     }
 
@@ -82,7 +82,7 @@ public class CommonBackup extends CommonManager {
         FileLoader( "here", testInfo.getProperty( "downloadDir" ), "Confluence-productspace-export-" + CaputureUtils.getYYYYMMDD() + type + ".zip" );
 
         // 完了後のキャプチャ出力
-        String filePath = CaputureUtils.getFilePath( getClass().getName(), browserName, "worktbackup" );
+        String filePath = CaputureUtils.getFilePath( getClass().getName(), browserName, "worktbackup_"+type );
         CaputureUtils.getScreenshot( ( TakesScreenshot ) driver, filePath );
     }
 
