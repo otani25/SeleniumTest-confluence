@@ -27,63 +27,22 @@ public class CommonBackup extends CommonManager {
     }
 
     /**
-     * サポートスペースのバックアップ実行
+     * 指定スペースのバックアップ実行
      * 
+     * @param space 対象スペース名 (文字大小区別)
      * @param type 実行バックアップタイプ (html,xml)
      */
-    public void supportSpaceBackup( String type ) {
+    public void spaceBackup( String space, String type ) {
+        LOG.log( Level.INFO, "【" + space + "】  backupType:" + type + " Start" );
+
         // ログインまでのアクション実行
         loginAction();
 
         // エクスポート完了までのアクション実行
-        backupAction( "supportSpace", type );
+        backupAction( space, type );
 
         // エクスポートしたファイルのDL
-        FileLoader( "here", testInfo.getProperty( "downloadDir" ), "Confluence-supportspace-export-" + CaputureUtils.getYYYYMMDD() + type + ".zip" );
-
-        // 完了後のキャプチャ出力
-        String filePath = CaputureUtils.getFilePath( getClass().getName(), browserName, "supportbackup_"+type );
-        CaputureUtils.getScreenshot( ( TakesScreenshot ) driver, filePath );
-    }
-
-    /**
-     * 業務スペースのバックアップ実行
-     * 
-     * @param type 実行バックアップタイプ (html,xml)
-     */
-    public void workSpaceBackup( String type ) {
-        // ログインまでのアクション実行
-        loginAction();
-
-        // エクスポート完了までのアクション実行
-        backupAction( "workSpace", type );
-
-        // エクスポートしたファイルのDL
-        FileLoader( "here", testInfo.getProperty( "downloadDir" ), "Confluence-workspace-export-" + CaputureUtils.getYYYYMMDD() + type + ".zip" );
-
-        // 完了後のキャプチャ出力
-        String filePath = CaputureUtils.getFilePath( getClass().getName(), browserName, "worktbackup_"+type );
-        CaputureUtils.getScreenshot( ( TakesScreenshot ) driver, filePath );
-    }
-
-    /**
-     * プロダクトスペースのバックアップ実行
-     * 
-     * @param type 実行バックアップタイプ (html,xml)
-     */
-    public void productSpaceBackup( String type ) {
-        // ログインまでのアクション実行
-        loginAction();
-
-        // エクスポート完了までのアクション実行
-        backupAction( "productSpace", type );
-
-        // エクスポートしたファイルのDL
-        FileLoader( "here", testInfo.getProperty( "downloadDir" ), "Confluence-productspace-export-" + CaputureUtils.getYYYYMMDD() + type + ".zip" );
-
-        // 完了後のキャプチャ出力
-        String filePath = CaputureUtils.getFilePath( getClass().getName(), browserName, "worktbackup_"+type );
-        CaputureUtils.getScreenshot( ( TakesScreenshot ) driver, filePath );
+        FileLoader( "here", testInfo.getProperty( "downloadDir" ), "Confluence-" + space + "-export-" + CaputureUtils.getYYYYMMDD() + type + ".zip" );
     }
 
     /**
@@ -193,7 +152,8 @@ public class CommonBackup extends CommonManager {
                         File renameFile = new File( downloadDir + "/" + rename );
                         dlFile.renameTo( renameFile );
                         LOG.log( Level.INFO, "downloadComplate " + renameFile.getPath() + renameFile.getName() );
-                    }else{
+                    }
+                    else {
                         LOG.log( Level.WARNING, "downloadComplate fileRename Failed" );
                     }
                 }

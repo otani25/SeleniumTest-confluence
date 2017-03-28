@@ -39,7 +39,7 @@ public class CHBackupTest extends BrowserChromeDriver {
      */
     @Test
     public void supportBackupHTML() {
-        backup.supportSpaceBackup( "html" );
+        backup.spaceBackup( "supportSpace", "html" );
     }
 
     /**
@@ -47,7 +47,7 @@ public class CHBackupTest extends BrowserChromeDriver {
      */
     @Test
     public void supportBackupXML() {
-        backup.supportSpaceBackup( "xml" );
+        backup.spaceBackup( "supportSpace", "xml" );
     }
 
     /**
@@ -55,7 +55,7 @@ public class CHBackupTest extends BrowserChromeDriver {
      */
     @Test
     public void workBackupHTML() {
-        backup.workSpaceBackup( "html" );
+        backup.spaceBackup( "workSpace", "html" );
     }
 
     /**
@@ -63,7 +63,7 @@ public class CHBackupTest extends BrowserChromeDriver {
      */
     @Test
     public void workBackupXML() {
-        backup.workSpaceBackup( "xml" );
+        backup.spaceBackup( "workSpace", "xml" );
     }
 
     /**
@@ -71,7 +71,7 @@ public class CHBackupTest extends BrowserChromeDriver {
      */
     @Test
     public void productBackupHTML() {
-        backup.productSpaceBackup( "html" );
+        backup.spaceBackup( "productSpace", "html" );
     }
 
     /**
@@ -79,7 +79,7 @@ public class CHBackupTest extends BrowserChromeDriver {
      */
     @Test
     public void productBackupXML() {
-        backup.productSpaceBackup( "xml" );
+        backup.spaceBackup( "productSpace", "xml" );
     }
 
 }
