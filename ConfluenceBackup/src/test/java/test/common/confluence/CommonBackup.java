@@ -15,6 +15,8 @@ import util.CaputureUtils;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,13 +84,22 @@ public class CommonBackup extends CommonManager {
         wait.until( visibilityOf( driver.findElement( By.id( "percentComplete" ) ) ) );
 
         // エクスポート完了待ち
-        String lastTime;
+        String lastTime = "";
         int percent = 0;
+        int timeout = Integer.parseInt( testInfo.getProperty( "timeout" ) );
+        int retryCount = 0;
         for ( ; percent < 100; ) {
             try {
                 WebElement element = driver.findElement( By.id( "percentComplete" ) );
                 if ( element != null ) {
                     percent = Integer.parseInt( element.getText() );
+                    // "taskElapsedTime"に前回と同じ秒数が出ているのはタイムアウト状態とし指定回数以上表示で強制タイムアウトとする
+                    if ( lastTime.equals( driver.findElement( By.id( "taskElapsedTime" ) ).getText() ) ) {
+                        if ( ++retryCount > timeout ) {
+                            LOG.log( Level.WARNING, "【" + space + "】 【TIMEOUT】  backupType:" + type );
+                            fail( "【FAILED】 TIMEOUT " + space + " backupType:" + type );
+                        }
+                    }
                     lastTime = driver.findElement( By.id( "taskElapsedTime" ) ).getText();
                     System.out.println( "percent:" + percent + " lastTime:" + lastTime );
                 }
@@ -120,7 +131,6 @@ public class CommonBackup extends CommonManager {
             int fileIndex = 0;
             String fileName = "none";
             File dir = new File( downloadDir );
-            new File( "." ).getPath();
             while ( downloading ) {
                 downloading = false;
                 File[] list = dir.listFiles();
@@ -148,10 +158,11 @@ public class CommonBackup extends CommonManager {
                     else {
                         dlFile = list[ fileIndex ];
                     }
+
                     if ( dlFile != null ) {
                         File renameFile = new File( downloadDir + "/" + rename );
                         dlFile.renameTo( renameFile );
-                        LOG.log( Level.INFO, "downloadComplate " + renameFile.getPath() + renameFile.getName() );
+                        LOG.log( Level.INFO, "downloadComplate " + renameFile.getPath() );
                     }
                     else {
                         LOG.log( Level.WARNING, "downloadComplate fileRename Failed" );

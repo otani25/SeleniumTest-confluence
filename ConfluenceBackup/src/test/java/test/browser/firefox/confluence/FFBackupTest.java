@@ -1,7 +1,7 @@
 /**
 *
 * クラス名
-*   CHBackupTest.java
+*   FFBackupTest.java
 *
 * 概要
 *   confluenceのバックアップをfirefoxブラウザで実行するクラス
